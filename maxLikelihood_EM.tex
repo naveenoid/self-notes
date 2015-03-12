@@ -1,0 +1,96 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphics} % for pdf, bitmapped graphics files
+\usepackage{graphicx}
+%\usepackage{epsfig} % for postscript graphics files
+%\usepackage{mathptmx} % assumes new font selection scheme installed
+%\usepackage{times} % assumes new font selection scheme installed
+\usepackage{amsmath} % assumes amsmath package installed
+\usepackage{amsfonts}
+\usepackage{float}
+%\usepackage{amssymb}  % assumes amsmath package installed
+\usepackage[x11names]{xcolor}
+
+%opening
+\title{Maximum Likelihood Estimation and the Expectation-Maximisation Algorithm}
+\author{Naveen Kuppuswamy - Self Notes}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+My self-compiled notes on Maximum-Likelihood Estimation as well as the EM algorithm. The notes were broadly drawn from \cite{Myung2003}, \cite{Chen2010} and to a lesser extent on \cite{Murphy2012}.
+
+\end{abstract}
+\section{Introduction}
+Parameteric estimation si the problem of finding the parameter values of a model that best fits data. The typical problem is in parameteric model estimation in the form of 
+\begin{equation}
+ y_i \sim f(\theta,y_i),
+ \label{eq:basic_problem}
+\end{equation}
+where $\theta$ is a vector of parameters and $f$ is a specific functional form (probability mass/density functions). Note that $f$ is general enough that it can be chosen according to the data and variables in question.
+
+The two broad methods are Least Squares Estimation (LSE) and Maximum Likelihood Estimation (MLE). Maximum likelihood is the \emph{systematic} way of seaching for the parameter values of our chosen distribution that maixmize the probability of observing the data that we observe. MLE has many optimal properties such as sufficiency consistency and efficiency. LSE is best only for linear regression. 
+
+\subsection{Bayesian Inference and Likelihood}
+
+From a statistical viewpoint data $y = (y_1,\ldots,y_m)$ is a random sample from an unknown population. Each population can be identified by a corresponding probability distribution $f(y)$. Associated with the distribution are the model parameters $\theta$, i.e. giving the probability density funciton $f(y|\theta)$. Indeed, a model is defined by the family of probability distributions indexed by the model's parameters. 
+
+Given observations in the formulation of Eq. \eqref{eq:basic_problem}, we would like to make inferences about the value of $\theta$, i.e. about finding $p(\theta|y)$ which is the opposite of a classical probability problem (eg. whats the probability of drawing an ace of spades from a certain type of deck of cards). Hence called `\emph{inverse probability problem}'.
+
+Now the classical Bayes' rule is in the following form,
+\begin{equation}
+ p(\theta|y) = \frac{p(\theta)p(y|\theta)}{p(y)},
+\end{equation}
+
+Since all comparisons are made with the same data (observations $y$), we can ignore $p(y)$ in the previous equation and just state,
+
+\begin{equation}
+ p(\theta|y) \propto p(\theta)p(y|\theta),
+\end{equation}
+
+i.e. following the rule that \emph{the posterior is proportional to the prior times likelihood}. Likelihood can therefore be treated as the transformation of a 'prior' into a 'posterior' density for $\theta$. Likelihood is the `\emph{unnormalized probability}' of a particular parameter value for a fixed data set. Thus we reverse roles of the observation $y$ and the parameter vector $\theta$. 
+
+\begin{equation}
+ \mathcal{L}(\theta|y) = p(y | \theta), 
+\label{eq:likelihood}
+ \end{equation}
+ 
+ \subsection{Maximum Likelihood Estimation}
+Given the likelihood function as defined by Eq. \eqref{eq:likelihood}, the maximum likelihood is simply the value $\theta = \hat{\theta}$ that maximizes the likelihood. The principle was originally developed by   R.A.Fisher in 1920s. Thus, maximum likelihood estimation is the method to seek the probability distribution that makes the observed data most likely.
+
+Now MLE estimates need not exist or be unique. For $\hat{\theta}$ exist, it must satisfy the so-called \emph{Likelihood equation}. Now for computational ease, the likelihood is instead computed as a log-likelihood, i.e. $ln \mathcal{L}(\theta|y)$ since it is by definition monotonic with the likelihood and has maxima at identical locations. Now by definition, the maximum likelihood lies at a maxima (or minima), and thus must satisfy the following partial differential equation,
+
+\begin{equation}
+ \frac{\partial ln \mathcal{L} (\theta|y)}{\partial \theta} = 0,
+ \label{eq:likelihood_eqn}
+\end{equation} = 
+at the location $\theta = \hat{\theta}$. To verify its a maxima, the second derivative of the log-likelihood also needs to be checked for -ve sign by satisfying the following inequality,
+
+\begin{equation}
+ \frac{\partial^2 ln \mathcal{L}(\theta|y)}{\partial \theta ^2} < 0,
+\label{eq:likelihood_eqn_maxima}
+ \end{equation}
+ 
+where if the dimensionality of $\theta$ is greater that one, yeilds a matrix called the \emph{Hessian} $(H(\theta))$, in which case, we need to look for a negative definite determinant for $H(\theta)$. 
+
+By following on from solving Eqns. \eqref{eq:likelihood_eqn} and \eqref{eq:likelihood_eqn_maxima}, we can find an analytical solution for the likelihood. This however may not always be possible, especially of the dimensionality of  $\theta$ is large, or if the PDF characterising the observation is highly nonlinear. Alternatives are grid search and/or machine learning techniques such as hill-climbing, simulated annealing etc. 
+
+\section{Example Analytical Solutions}
+\subsection{Poisson Distribution}
+
+
+
+
+\appendix
+\section*{Appendix}
+\section{Maximum Likelihood vs Least-Squares Estimation}
+
+
+%\bibliographystyle{IEEEtran}
+\bibliographystyle{abbrv}
+\bibliography{probabilityLikelihoodRefs}
+
+\end{document}
